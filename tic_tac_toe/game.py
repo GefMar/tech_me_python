@@ -6,10 +6,6 @@ from tic_tac_toe.users import ask_mode, create_users
 
 
 def game_init() -> dict:
-    # Поздороваться
-    # Уточнить режим игры
-    # В зависимости от режима создать игроков
-    # Создать доску
     print("Добро пожаловать в Игру Крестики Нолики")
     return {
         "users": create_users(ask_mode()),

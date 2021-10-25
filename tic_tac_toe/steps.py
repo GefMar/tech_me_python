@@ -21,7 +21,6 @@ def chek_step(board: list[list], step: list[int, int]) -> bool:
             return True
     except IndexError:
         print("Неверные координаты")
-        return False
     return False
 
 

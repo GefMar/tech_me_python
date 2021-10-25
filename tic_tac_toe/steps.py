@@ -23,3 +23,14 @@ def chek_step(board: list[list], step: list[int, int]) -> bool:
         print("Неверные координаты")
         return False
     return False
+
+
+def user_step(user: dict, board: list[list]):
+    while True:
+        step = get_step()
+        if chek_step(board, step):
+            board[step[0]][step[1]] = user["symbol"]
+            break
+        else:
+            print("Ячейка не существует или занята")
+            continue

@@ -1,6 +1,6 @@
 from itertools import cycle
 from tic_tac_toe.board import get_board, board_match
-from tic_tac_toe.steps import get_step, chek_step
+from tic_tac_toe.steps import user_step
 
 
 def game(users: list[dict], board: list[list]):
@@ -11,14 +11,7 @@ def game(users: list[dict], board: list[list]):
     # Либо поздравить с победой, либо обьявить Ничью
     for user in cycle(users):
         print(f"Ход Игрока: {user['name']}")
-        while True:
-            step = get_step()
-            if chek_step(board, step):
-                board[step[0]][step[1]] = user["symbol"]
-                break
-            else:
-                print("Ячейка не существует или занята")
-                continue
+        user_step(user, board)
         if board_match(board):
             print(f"Победил {user['name']}")
             break

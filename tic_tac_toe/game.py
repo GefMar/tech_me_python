@@ -1,10 +1,20 @@
 from itertools import cycle
+
 from tic_tac_toe.board import get_board, board_match
 from tic_tac_toe.steps import user_step
+from tic_tac_toe.users import ask_mode, create_users
 
 
-def game_init():
-    pass
+def game_init() -> dict:
+    # Поздороваться
+    # Уточнить режим игры
+    # В зависимости от режима создать игроков
+    # Создать доску
+    print("Добро пожаловать в Игру Крестики Нолики")
+    return {
+        "users": create_users(ask_mode()),
+        "board": get_board(3),
+    }
 
 
 def game_end():
@@ -29,4 +39,5 @@ def game_cycle(users: list[dict, ...], board: list[list]):
     print("END GAME")
 
 
-game_cycle([{"name": 1, "symbol": "X"}, {"name": 2, "symbol": "O"}], get_board(3))
+game_vars = game_init()
+game_cycle(**game_vars)

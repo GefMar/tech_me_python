@@ -1,23 +1,11 @@
 import random
 
-
-COMP_NAMES = [
-    "R2D2",
-    "C3PO",
-    "WALLE",
-    "DALEK",
-]
-
-user_template = (
-    ("name", lambda *args, **kwargs: input("ВВЕДИТЕ ВАШЕ ИМЯ")),
-    ("symbol", lambda symbol, *args, **kwargs: symbol),
-    ("steps", lambda *args, **kwargs: list()),
-)
+from tic_tac_toe.constants import USER_TEMPLATE, COMP_NAMES, SYMBOLS
 
 
 def create_user(symbol) -> dict:
     user = {}
-    for itm in user_template:
+    for itm in USER_TEMPLATE:
         user[itm[0]] = itm[1](symbol=symbol)
     return user
 
@@ -40,5 +28,26 @@ def get_user(mode, symbol) -> dict:
     return MODES[mode]["creator"](symbol=symbol)
 
 
-user = get_user("COMP", "X")
-print(user)
+def ask_mode() -> str:
+    user_modes = {idx: itm for idx, itm in enumerate(MODES, 1)}
+
+    modes_str = "\n".join(f"{key}: {value}" for key, value in user_modes.items())
+    modes_string = f"Выберите номер режима игры\n{modes_str}"
+
+    while True:
+        try:
+            mode_input = int(input(modes_string))
+            return user_modes[mode_input]
+        except ValueError:
+            print("Недопустимый ввод, введите только число")
+        except KeyError:
+            print("Недопустимое значение, повторите ввод")
+        continue
+
+
+def create_users(mode) -> list[dict]:
+    users = []
+    for symbol, mode in zip(SYMBOLS, ("USER", mode)):
+        user = get_user(mode, symbol)
+        users.append(user)
+    return users

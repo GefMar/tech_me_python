@@ -1,4 +1,7 @@
-def get_step() -> list[int, int]:
+import random
+
+
+def get_step() -> tuple:
     while True:
         result = []
         input_step = input("Введите координаты хода через пробел\n")
@@ -11,10 +14,10 @@ def get_step() -> list[int, int]:
         except ValueError:
             print("Ошибка ввода, повторите")
             continue
-        return result
+        return tuple(result)
 
 
-def chek_step(board: list[list], step: list[int, int]) -> bool:
+def chek_step(board: list[list], step: tuple) -> bool:
     try:
         cell = board[step[0]][step[1]]
         if not cell:
@@ -25,11 +28,22 @@ def chek_step(board: list[list], step: list[int, int]) -> bool:
 
 
 def user_step(user: dict, board: list[list]):
+    if user["user_type"] == "COMP":
+        step = auto_step(user, board)
+        if chek_step(board, step):
+            board[step[0]][step[1]] = user["symbol"]
+            return step
     while True:
         step = get_step()
         if chek_step(board, step):
             board[step[0]][step[1]] = user["symbol"]
-            break
+            return step
         else:
             print("Ячейка не существует или занята")
             continue
+
+
+def auto_step(user, board: list[list]):
+    board_size = len(board)
+    all_steps_variants = set((i, j) for i in range(board_size) for j in range(board_size))
+    return random.choice(tuple(all_steps_variants.difference(user["all_steps"])))

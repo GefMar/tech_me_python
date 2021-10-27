@@ -6,7 +6,7 @@ from tic_tac_toe.constants import USER_TEMPLATE, COMP_NAMES, SYMBOLS
 def create_user(symbol) -> dict:
     user = {}
     for itm in USER_TEMPLATE:
-        user[itm[0]] = itm[1](symbol=symbol)
+        user[itm[0]] = itm[1](symbol=symbol, user_type="USER")
     return user
 
 
@@ -15,6 +15,8 @@ def create_comp(symbol) -> dict:
         "name": random.choice(COMP_NAMES),
         "symbol": symbol,
         "steps": [],
+        "all_steps": set(),
+        "user_type": "COMP",
     }
 
 

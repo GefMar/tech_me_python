@@ -93,3 +93,5 @@ h = (a, b, c)
 
 for itm in some_zip(*h):
     print(itm)
+
+"HELLO"

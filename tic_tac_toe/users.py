@@ -50,6 +50,7 @@ def ask_mode() -> str:
 def create_users(mode) -> list[dict]:
     users = []
     for symbol, mode in zip(SYMBOLS, ("USER", mode)):
-        user = get_user(mode, symbol)
+        user = MODES[mode]["creator"](symbol=symbol)
+        # user = get_user(mode, symbol)
         users.append(user)
     return users

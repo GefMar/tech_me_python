@@ -1,3 +1,5 @@
+import datetime
+
 SYMBOLS = ("X", "O")
 
 COMP_NAMES = [
@@ -14,3 +16,20 @@ USER_TEMPLATE = (
     ("all_steps", lambda *args, **kwargs: set()),
     ("user_type", lambda user_type, *args, **kwargs: user_type),
 )
+
+LOG_FOLDER = "game_logs"
+
+FILE_HANDLERS = {
+    "GAME_NUM": "game_num_inc",
+    "INIT_GAME": "game_init",
+    "GAME_STEP": "game_log",
+}
+
+INIT_ROW_TEMPLATE = {
+    "game_id": int,
+    "mode": str,
+    "x_user_name": str,
+    "o_user_name": str,
+    "date_start": datetime.datetime.fromisoformat,
+}
+GAME_LOG_TEMPLATE = ("game_id", "step_date", "user_name", "user_step")

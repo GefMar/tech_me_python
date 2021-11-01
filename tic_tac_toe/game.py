@@ -1,16 +1,32 @@
+import sys
 from itertools import cycle
 
 from tic_tac_toe.board import get_board, board_match, print_board
+from tic_tac_toe.game_logger import write_init, get_game_num, write_step
 from tic_tac_toe.steps import user_step
-from tic_tac_toe.users import ask_mode, create_users
+from tic_tac_toe.users import ask_mode, create_users, MODES
 
 
 def game_init() -> dict:
     print("Добро пожаловать в Игру Крестики Нолики")
-    return {
-        "users": create_users(ask_mode()),
+    mode = None
+    try:
+        argv_mode = sys.argv[1]
+        if argv_mode.upper() in MODES:
+            mode = argv_mode
+    except IndexError:
+        pass
+    if not mode:
+        mode = ask_mode()
+    game_num = get_game_num()
+    init_data = {
+        "users": create_users(mode),
         "board": get_board(3),
+        "mode": mode,
+        "game_num": game_num
     }
+    write_init(init_data)
+    return init_data
 
 
 def game_end(step_num, winner):
@@ -25,7 +41,7 @@ def game_end(step_num, winner):
         print("Неверный ввод, повторите")
 
 
-def game_cycle(users: list[dict, ...], board: list[list]):
+def game_cycle(users: list[dict, ...], board: list[list], mode, game_num):
     winner = None
     step_num = None
     steps = set()
@@ -36,6 +52,7 @@ def game_cycle(users: list[dict, ...], board: list[list]):
         step = user_step(user, board)
         user["steps"].append(step)
         steps.add(step)
+        write_step(user, step, step_num, game_num)
         if board_match(board):
             winner = user
             break

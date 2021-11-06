@@ -1,8 +1,16 @@
-# from tic_tac_toe import matrix_match
-import tic_tac_toe
+from tic_tac_toe.board import get_board, board_match
 
 
-def test_matrix():
+def board_test():
+    for size in range(3, 6):
+        board = get_board(size)
+        assert len(board) == size, "Неверная размерность доски"
+        assert len(min(board)) == len(max(board)), "Неравная длина строк доски"
+        assert len(min(board)) == size, "Неверная размерность строк доски"
+        assert set(sum(board, [])) == {0, }, "Неверное заполнение доски"
+
+
+def test_board_match():
     matrix_tests = (
         (([1, 1, 1],
           [0, 0, 0],
@@ -43,6 +51,9 @@ def test_matrix():
     )
 
     for test in matrix_tests:
-        assert tic_tac_toe.matrix_match(test[0]) is test[1], test[0]
+        assert board_match(test[0]) is test[1], test[0]
 
-test_matrix()
+
+if __name__ == '__main__':
+    board_test()
+    test_board_match()

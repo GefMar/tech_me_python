@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import chain
 
 
 class Board:
@@ -39,13 +40,7 @@ class Board:
             yield from itm
 
     def print_board(self):
-        board_view = [[0 for _ in range(self.__size)] for _ in range(self.__size)]
-        for user, steps in self.done_steps.items():
-            for step in steps:
-                board_view[step[0]][step[1]] = user
-        title_row = f'##{"#".join(map(str, range(len(board_view))))}#'
-        str_rows = "\n".join(map(lambda itm: f"{itm[0]}#{'|'.join(map(str, itm[1]))}#", enumerate(board_view)))
-        print(f"{title_row}\n{str_rows}\n{'#' * len(title_row)}")
+        print(self)
 
     def add_step(self, step: tuple[int, int], user):
         if (
@@ -68,10 +63,25 @@ class Board:
         #             return user
         return None
 
+    def free_cells(self):
+        all_steps = {(i, j) for i in range(self.__size) for j in range(self.__size)}
+        return all_steps.difference({itm for itm in chain(self.done_steps.values())})
 
-board_view = Board(3)
-board_view.add_step((0, 0), "X")
-board_view.add_step((0, 1), "X")
-board_view.add_step((0, 2), "X")
-win = board_view.chek_board()
-print(board_view.print_board())
+    def __str__(self):
+        board_view = [[0 for _ in range(self.__size)] for _ in range(self.__size)]
+        for user, steps in self.done_steps.items():
+            for step in steps:
+                board_view[step[0]][step[1]] = user
+        title_row = f'##{"#".join(map(str, range(len(board_view))))}#'
+        str_rows = "\n".join(map(lambda itm: f"{itm[0]}#{'|'.join(map(str, itm[1]))}#", enumerate(board_view)))
+        return f"{title_row}\n{str_rows}\n{'#' * len(title_row)}"
+
+
+if __name__ == '__main__':
+    board_view = Board(3)
+    board_view.add_step((0, 0), "X")
+    board_view.add_step((0, 1), "X")
+    board_view.add_step((0, 2), "X")
+    win = board_view.chek_board()
+    print(board_view.print_board())
+    print(board_view)

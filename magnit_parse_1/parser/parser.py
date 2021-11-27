@@ -1,5 +1,3 @@
-import re
-
 from .page import MagnitPage
 from .patterns import PRODUCTS_PATTERN
 
